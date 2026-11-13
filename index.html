@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Osmolovska Art</title>
-<meta name="description" content="Hyperrealist oil paintings of flowers and fruit by Osmolovska. Demo website concept.">
+<meta name="description" content="Hyperrealist oil paintings of flowers and fruit by Osmolovska.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400;1,6..96,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -68,11 +68,14 @@
   }
   @media (prefers-reduced-motion:reduce){.intro *{opacity:1!important}}
 
-  /* demo notice */
-  .demo-bar{background:var(--petal);color:var(--ink);font-size:13px;text-align:center;padding:8px max(16px,env(safe-area-inset-right,0px)) 8px max(16px,env(safe-area-inset-left,0px))}
-  .demo-bar a{font-weight:700;text-decoration:underline;text-underline-offset:3px}
-  .demo-pill{position:fixed;right:max(18px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;padding:10px 16px;border-radius:999px;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.25);animation:bob 4s ease-in-out infinite}
-  .demo-pill b{color:var(--petal)}
+  /* credit pill (left) + back to top (right) */
+  .credit-pill{position:fixed;left:max(18px,env(safe-area-inset-left,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;padding:10px 16px;border-radius:999px;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.25);animation:bob 4s ease-in-out infinite}
+  .credit-pill b{color:var(--petal)}
+  .to-top{position:fixed;right:max(18px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;width:46px;height:46px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;box-shadow:0 10px 30px rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.12);opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .3s,transform .3s,background .3s}
+  .to-top.show{opacity:1;transform:none;pointer-events:auto}
+  .to-top:hover{background:var(--petal-deep)}
+  .to-top svg{width:18px;height:18px}
+  .form-note{margin-top:14px;color:var(--petal);font-size:15px}
   @keyframes bob{50%{transform:translateY(-6px)}}
 
   /* header */
@@ -99,7 +102,6 @@
   .facts{display:flex;gap:44px;margin-top:56px;padding-top:28px;border-top:1px solid rgba(255,255,255,.12);flex-wrap:wrap}
   .facts div{font-size:13px;color:var(--muted-dark)}
   .facts b{display:block;font-family:var(--display);font-weight:400;font-size:30px;color:#fff;line-height:1.1}
-  .sample-tag{display:inline-block;margin-left:8px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;border:1px dashed var(--petal);color:var(--petal);padding:2px 7px;border-radius:999px;vertical-align:middle}
 
   /* section heads */
   section{padding:100px 0}
@@ -189,7 +191,7 @@
   footer .logo{color:#fff}
   footer a:hover{color:#fff}
 
-  /* lightbox + modal */
+  /* lightbox */
   .overlay{position:fixed;inset:0;z-index:80;background:rgba(10,8,9,.96);display:grid;place-items:center;padding:24px}
   .overlay[hidden]{display:none}
   .lightbox{display:grid;grid-template-columns:auto 300px;gap:32px;align-items:center;max-width:1100px;color:#fff}
@@ -198,12 +200,6 @@
   .lightbox p{color:var(--muted-dark);margin-bottom:24px}
   .lightbox .label{color:var(--petal)}
   .x{position:absolute;top:calc(16px + env(safe-area-inset-top,0px));right:max(16px,env(safe-area-inset-right,0px));width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);color:#fff;font-size:24px}
-  .modal-card{background:var(--wall);color:var(--text);max-width:440px;width:100%;padding:44px 34px 34px;text-align:center;position:relative;animation:pop .35s cubic-bezier(.3,1.4,.5,1)}
-  .modal-card .x{position:absolute;top:12px;right:12px;background:var(--paper);color:var(--text);box-shadow:0 2px 10px rgba(0,0,0,.08)}
-  .modal-card h3{font-size:36px;margin:12px 0 14px}
-  .modal-card .label{color:var(--petal-deep)}
-  .modal-card p{color:var(--muted);margin-bottom:10px}
-  .modal-card .ua{font-size:14px;margin-bottom:26px}
   @keyframes pop{from{transform:scale(.94);opacity:0}}
 
   @media (max-width:1000px){
@@ -235,7 +231,7 @@
     .collect-form{flex-direction:column}
     .collect-form input{padding:14px 16px}
     .collect-form .btn{justify-content:center}
-    .demo-pill{font-size:12px;padding:8px 14px}
+    .credit-pill{font-size:12px;padding:8px 14px}
     .quote{font-size:21px}
   }
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -255,7 +251,7 @@
   <a href="#site" class="intro-enter">Enter the gallery<i></i></a>
 </section>
 
-<div class="demo-bar" id="site">Demo website by <a href="https://www.threads.com/@nest.a.s" target="_blank" rel="noopener">@nest.a.s</a> · a concept for Osmolovska Art. Texts are placeholders.</div>
+<div id="site"></div>
 
 <header>
   <div class="wrap nav">
@@ -267,7 +263,7 @@
       <a href="#about">About</a>
       <a href="#commissions">Commissions</a>
     </nav>
-    <button class="btn btn-petal" type="button" data-demo>Inquire</button>
+    <button class="btn btn-petal" type="button" data-inquire>Inquire</button>
   </div>
 </header>
 
@@ -291,8 +287,8 @@
       </div>
       <div class="facts">
         <div><b>Oil on canvas</b>every work is an original</div>
-        <div><b>Up to 1.5 m</b>large-format botanicals <span class="sample-tag">sample</span></div>
-        <div><b>Worldwide</b>insured shipping <span class="sample-tag">sample</span></div>
+        <div><b>Up to 1.5 m</b>large-format botanicals</div>
+        <div><b>Worldwide</b>insured shipping</div>
       </div>
     </div>
   </section>
@@ -346,7 +342,7 @@
         <div class="inset"><img src="img/studio.jpg" alt="The artist painting a peony in her studio" loading="lazy"></div>
       </div>
       <div>
-        <span class="label">The artist <span class="sample-tag">sample text</span></span>
+        <span class="label">The artist</span>
         <h2>Painting what you walk past</h2>
         <p>Osmolovska paints flowers and fruit at a scale that makes you stop. A lotus becomes a metre of folded silk; a grape becomes a small planet beaded with water.</p>
         <p>Each painting starts from her own photographs and takes weeks of slow, layered work in oil. The dark grounds of the <em>Night Garden</em> series are built so the colour of every petal seems lit from within.</p>
@@ -377,8 +373,8 @@
         <div class="step"><h3>Delivered</h3><p>Signed, varnished, with a certificate of authenticity, packed and insured to your door.</p></div>
       </div>
       <div class="commission-cta">
-        <button class="btn btn-ink" type="button" data-demo>Start a commission</button>
-        <span>Replies within two working days <span class="sample-tag">sample</span></span>
+        <button class="btn btn-ink" type="button" data-inquire>Start a commission</button>
+        <span>Replies within two working days</span>
       </div>
     </div>
   </section>
@@ -392,6 +388,7 @@
         <input id="collectEmail" type="email" required placeholder="Your email" aria-label="Email address">
         <button class="btn btn-petal" type="submit">Join</button>
       </form>
+      <p class="form-note" id="collectNote" hidden>Thank you! You are on the list.</p>
     </div>
   </section>
 </main>
@@ -400,11 +397,12 @@
   <div class="wrap foot">
     <span class="logo">Osmolovska <span>Art</span></span>
     <span><a href="https://www.instagram.com/osmolovskaart/" target="_blank" rel="noopener">Instagram @osmolovskaart</a></span>
-    <span>Demo website by <a href="https://www.threads.com/@nest.a.s" target="_blank" rel="noopener" style="color:var(--petal)">@nest.a.s</a></span>
+    <span>Website by <a href="https://www.threads.com/@nest.a.s" target="_blank" rel="noopener" style="color:var(--petal)">@nest.a.s</a></span>
   </div>
 </footer>
 
-<a class="demo-pill" href="https://www.threads.com/@nest.a.s" target="_blank" rel="noopener">✦ Demo website by <b>@nest.a.s</b></a>
+<a class="credit-pill" href="https://www.threads.com/@nest.a.s" target="_blank" rel="noopener">✦ Website by <b>@nest.a.s</b></a>
+<a class="to-top" href="#site" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>
 
 <div class="overlay" id="lightbox" hidden>
   <button class="x" type="button" data-close aria-label="Close">×</button>
@@ -414,19 +412,8 @@
       <span class="label" id="lbSeries"></span>
       <h3 id="lbTitle"></h3>
       <p>Oil on canvas · original</p>
-      <button class="btn btn-petal" type="button" data-demo>Inquire about this work</button>
+      <button class="btn btn-petal" type="button" data-inquire>Inquire about this work</button>
     </div>
-  </div>
-</div>
-
-<div class="overlay" id="demoModal" hidden>
-  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="demoTitle">
-    <button class="x" type="button" data-close aria-label="Close">×</button>
-    <span class="label">This is a demo website</span>
-    <h3 id="demoTitle">Want a website like this? Message me.</h3>
-    <p>Inquiries, commissions and the collectors' list are not connected yet. This page is a concept made by <b>@nest.a.s</b>.</p>
-    <p class="ua">Хочете такий сайт? Напишіть мені.</p>
-    <a class="btn btn-ink" href="https://www.threads.com/@nest.a.s" target="_blank" rel="noopener">Message @nest.a.s on Threads</a>
   </div>
 </div>
 
@@ -453,7 +440,7 @@ const grid=document.getElementById('works-grid');
 grid.innerHTML=works.map((w,i)=>`
   <article class="work" data-s="${w.s}">
     <button class="frame" type="button" data-i="${i}" aria-label="Open ${w.t}"><img src="img/${w.img}.jpg" alt="${w.t}, oil painting" loading="lazy"></button>
-    <div class="meta"><div><h3>${w.t}</h3><small>${w.sn} · oil on canvas</small></div><button class="inquire" type="button" data-demo>Inquire</button></div>
+    <div class="meta"><div><h3>${w.t}</h3><small>${w.sn} · oil on canvas</small></div><button class="inquire" type="button" data-inquire>Inquire</button></div>
   </article>`).join('');
 
 document.getElementById('filters').addEventListener('click',e=>{
@@ -475,8 +462,9 @@ tabs.addEventListener('click',e=>{
 });
 
 // overlays
-const lb=document.getElementById('lightbox'),demo=document.getElementById('demoModal');
-const closeAll=()=>{lb.hidden=true;demo.hidden=true;};
+const lb=document.getElementById('lightbox');
+const closeAll=()=>{lb.hidden=true;};
+const DM='https://ig.me/m/osmolovskaart';
 grid.addEventListener('click',e=>{
   const f=e.target.closest('.frame'); if(!f) return;
   const w=works[+f.dataset.i];
@@ -487,11 +475,13 @@ grid.addEventListener('click',e=>{
   lb.hidden=false;
 });
 document.addEventListener('click',e=>{
-  if(e.target.closest('[data-demo]')){lb.hidden=true;demo.hidden=false;return;}
-  if(e.target.closest('[data-close]')||e.target===lb||e.target===demo) closeAll();
+  if(e.target.closest('[data-inquire]')){lb.hidden=true;window.open(DM,'_blank','noopener');return;}
+  if(e.target.closest('[data-close]')||e.target===lb) closeAll();
 });
 addEventListener('keydown',e=>{if(e.key==='Escape') closeAll();});
-document.getElementById('collectForm').addEventListener('submit',e=>{e.preventDefault();e.target.reset();demo.hidden=false;});
+document.getElementById('collectForm').addEventListener('submit',e=>{e.preventDefault();e.target.reset();document.getElementById('collectNote').hidden=false;});
+const toTop=document.querySelector('.to-top'),siteMark=document.getElementById('site');
+addEventListener('scroll',()=>toTop.classList.toggle('show',siteMark.getBoundingClientRect().top<-200),{passive:true});
 </script>
 </body>
 </html>
