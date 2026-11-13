@@ -44,6 +44,30 @@
   .btn-ink{background:var(--ink);color:#fff}
   .btn-ink:hover{background:var(--petal-deep)}
 
+  /* intro: one full screen before the site */
+  .intro{min-height:100vh;min-height:100svh;background:var(--ink);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px max(20px,env(safe-area-inset-left,0px)) 40px;position:relative;overflow:hidden}
+  .intro .label{color:var(--petal);opacity:0;animation:rise 1s .2s ease forwards}
+  .triptych{display:flex;align-items:center;justify-content:center;gap:clamp(12px,2.4vw,32px);margin:28px 0 0;height:min(56vh,560px)}
+  .triptych img{height:84%;width:auto;aspect-ratio:3/4;object-fit:cover;opacity:0;animation:rise 1.4s ease forwards;box-shadow:0 30px 60px rgba(0,0,0,.5)}
+  .triptych img:nth-child(1){animation-delay:.4s}
+  .triptych img:nth-child(2){height:100%;animation-delay:.15s}
+  .triptych img:nth-child(3){animation-delay:.65s}
+  .triptych img:nth-child(1),.triptych img:nth-child(3){clip-path:inset(0 1% 4% 2.5%)}
+  .intro-name{font-family:var(--display);line-height:1.05;font-size:clamp(56px,11vw,168px);letter-spacing:-.015em;margin-top:-.42em;position:relative;text-shadow:0 6px 40px rgba(0,0,0,.6);opacity:0;animation:rise 1.2s .9s ease forwards}
+  .intro-name em{color:var(--petal)}
+  .intro p{color:var(--muted-dark);font-size:17px;margin-top:10px;opacity:0;animation:rise 1s 1.2s ease forwards}
+  .intro-enter{margin-top:30px;display:inline-flex;flex-direction:column;align-items:center;gap:10px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:#fff;opacity:0;animation:rise 1s 1.5s ease forwards}
+  .intro-enter:hover{color:var(--petal)}
+  .intro-enter i{width:1px;height:42px;background:linear-gradient(var(--petal),transparent);animation:drip 2.2s ease-in-out infinite}
+  @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  @keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+  @media (max-width:640px){
+    .triptych{height:46vh}
+    .triptych img:nth-child(1),.triptych img:nth-child(3){display:none}
+    .intro-name{font-size:11vw;white-space:nowrap}
+  }
+  @media (prefers-reduced-motion:reduce){.intro *{opacity:1!important}}
+
   /* demo notice */
   .demo-bar{background:var(--petal);color:var(--ink);font-size:13px;text-align:center;padding:8px max(16px,env(safe-area-inset-right,0px)) 8px max(16px,env(safe-area-inset-left,0px))}
   .demo-bar a{font-weight:700;text-decoration:underline;text-underline-offset:3px}
@@ -219,11 +243,23 @@
 </head>
 <body>
 
-<div class="demo-bar">Demo website by <a href="https://www.threads.com/@nest.a.s" target="_blank" rel="noopener">@nest.a.s</a> · a concept for Osmolovska Art. Texts are placeholders.</div>
+<section class="intro" aria-label="Welcome">
+  <span class="label">Hyperrealist oil paintings</span>
+  <div class="triptych" aria-hidden="true">
+    <img src="img/w-lotus.jpg" alt="">
+    <img src="img/w-dahlia.jpg" alt="">
+    <img src="img/w-crown-imperial.jpg" alt="">
+  </div>
+  <div class="intro-name">Osmolovska <em>Art</em></div>
+  <p>Flowers, painted larger than life.</p>
+  <a href="#site" class="intro-enter">Enter the gallery<i></i></a>
+</section>
+
+<div class="demo-bar" id="site">Demo website by <a href="https://www.threads.com/@nest.a.s" target="_blank" rel="noopener">@nest.a.s</a> · a concept for Osmolovska Art. Texts are placeholders.</div>
 
 <header>
   <div class="wrap nav">
-    <a href="#" class="logo">Osmolovska <span>Art</span></a>
+    <a href="#site" class="logo">Osmolovska <span>Art</span></a>
     <nav class="menu" aria-label="Main">
       <a href="#works">Works</a>
       <a href="#rooms">In your room</a>
