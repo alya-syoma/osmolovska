@@ -133,11 +133,11 @@
 
   /* "on the wall": real-scale mock room, 400 cm of wall across the frame */
   .room{position:absolute;inset:0;overflow:hidden}
-  .view.wide{aspect-ratio:4/3}
-  .room .sofa{position:absolute;left:50%;transform:translateX(-50%);width:52.5%;height:auto}
-  .room .art{position:absolute;left:50%;transform:translateX(-50%);box-shadow:0 10px 24px rgba(0,0,0,.35);object-fit:cover}
+  .view.wide{aspect-ratio:1536/1444}
+  .room .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .room .art{position:absolute;transform:translateX(-50%);box-shadow:2px 10px 18px rgba(60,40,30,.35),0 2px 4px rgba(60,40,30,.25);object-fit:cover}
   .room .art.round{border-radius:50%}
-  .room .cap{position:absolute;left:12px;bottom:10px;font-size:11px;color:#5b5150;letter-spacing:.06em}
+  .room .cap{position:absolute;left:12px;top:10px;font-size:11px;color:#6b5f58;letter-spacing:.06em}
 
   /* accordions */
   .acc{margin-top:22px;border-top:1px solid var(--line)}
@@ -339,13 +339,14 @@ function dims(w){
   const r=w.size.match(/Ø\s*(\d+)/); if(r) return {h:+r[1],w:+r[1],round:true};
   return {h:60,w:60};
 }
-const SOFA='<svg class="sofa" viewBox="0 0 210 85" aria-hidden="true"><rect x="0" y="22" width="210" height="45" rx="10" fill="#6d665f"/><rect x="14" y="0" width="182" height="40" rx="10" fill="#7a736b"/><rect x="0" y="22" width="24" height="50" rx="9" fill="#615a54"/><rect x="186" y="22" width="24" height="50" rx="9" fill="#615a54"/><rect x="18" y="67" width="6" height="18" fill="#3b3430"/><rect x="186" y="67" width="6" height="18" fill="#3b3430"/></svg>';
+// Real room photo (img/room-wall.jpg, 1536 × 1444 px). The sofa is 1195 px wide = 220 cm,
+// its back top sits at y = 896 px, its centre at x = 850 px. Paintings hang 18 cm above the back.
+const ROOM={w:1536,h:1444,pxPerCm:1195/220,cx:850,backTop:896,gap:18};
 function roomView(w){
-  // the frame shows 400 cm of wall and 250 cm of height; sofa 210 × 85 cm stands on the floor line
-  const d=dims(w), WALL_W=400, WALL_H=300, FLOOR=55, SOFA_H=85;
-  const bottom=FLOOR+SOFA_H+18; // 18 cm gap above the sofa back
-  const fl=FLOOR/WALL_H*100;
-  return `<div class="room" style="background:linear-gradient(to top,#a88b6b,#b99d7d ${fl}%,#e2dcd3 ${fl}%,#ebe6df)"><img class="art${d.round?' round':''}" src="../img/${w.img}.jpg" alt="${w.t} on a wall above a sofa" style="width:${d.w/WALL_W*100}%;height:${d.h/WALL_H*100}%;bottom:${bottom/WALL_H*100}%">${SOFA.replace('class="sofa"',`class="sofa" style="bottom:${fl}%;width:${210/WALL_W*100}%"`)}<span class="cap">To scale · sofa 210 cm wide</span></div>`;
+  const d=dims(w), k=ROOM.pxPerCm;
+  const bottomPx=ROOM.h-ROOM.backTop+ROOM.gap*k;
+  const st=`left:${ROOM.cx/ROOM.w*100}%;width:${d.w*k/ROOM.w*100}%;height:${d.h*k/ROOM.h*100}%;bottom:${bottomPx/ROOM.h*100}%`;
+  return `<div class="room"><img class="bg" src="../img/room-wall.jpg" alt=""><img class="art${d.round?' round':''}" src="../img/${w.img}.jpg" alt="${w.t} on a wall above a sofa" style="${st}"><span class="cap">To scale · sofa 220 cm wide</span></div>`;
 }
 let shots=[],shot=0;
 function showShot(k){
