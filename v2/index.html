@@ -99,7 +99,6 @@
   .panel{position:fixed;inset:0;z-index:60;background:rgba(10,8,9,.97);display:grid;place-items:center;padding:24px;overflow:auto}
   .panel[hidden]{display:none}
   .card{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:56px;max-width:1080px;width:100%;align-items:center}
-  .card img{width:100%;max-height:84vh;object-fit:contain}
   .card h3{font-size:clamp(34px,4vw,48px);margin:10px 0 8px}
   .card .meta{color:var(--muted);margin-bottom:28px}
   .opts{display:grid;gap:10px;margin-bottom:22px}
@@ -112,6 +111,43 @@
   .x{position:fixed;top:16px;right:20px;font-size:30px;line-height:1;color:var(--muted)}
   .x:hover{color:var(--text)}
 
+  /* mobile menu */
+  .burger{display:none;width:24px;height:24px}
+  .mnav{position:fixed;inset:68px 0 0;z-index:39;background:var(--ink);padding:28px max(20px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:6px}
+  .mnav[hidden]{display:none}
+  .mnav a{font-family:var(--display);font-size:32px;padding:6px 0}
+  .mnav .lang{display:flex;margin-top:24px;font-size:14px}
+
+  /* artwork gallery */
+  .gal{display:flex;flex-direction:column;gap:12px;min-width:0}
+  .view{position:relative;aspect-ratio:4/5;max-height:76vh;width:100%;overflow:hidden;background:var(--ink-2)}
+  .view > img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;max-height:none}
+  .view > img.zoom{object-fit:cover}
+  .thumbs{display:flex;gap:8px}
+  .thumb{width:64px;height:64px;overflow:hidden;border:1px solid transparent;opacity:.6;position:relative;flex:none;background:var(--ink-2)}
+  .thumb.on{border-color:var(--text);opacity:1}
+  .thumb img{width:100%;height:100%;object-fit:cover}
+  .thumb span{position:absolute;inset:0;display:grid;place-items:center;font-size:10px;letter-spacing:.1em;text-transform:uppercase;text-align:center;line-height:1.2;color:var(--text);background:rgba(20,17,19,.45)}
+  .arrow{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;background:rgba(20,17,19,.6);color:var(--text);font-size:18px;z-index:2}
+  .arrow.prev{left:10px}.arrow.next{right:10px}
+
+  /* "on the wall": real-scale mock room, 400 cm of wall across the frame */
+  .room{position:absolute;inset:0;overflow:hidden}
+  .view.wide{aspect-ratio:4/3}
+  .room .sofa{position:absolute;left:50%;transform:translateX(-50%);width:52.5%;height:auto}
+  .room .art{position:absolute;left:50%;transform:translateX(-50%);box-shadow:0 10px 24px rgba(0,0,0,.35);object-fit:cover}
+  .room .art.round{border-radius:50%}
+  .room .cap{position:absolute;left:12px;bottom:10px;font-size:11px;color:#5b5150;letter-spacing:.06em}
+
+  /* accordions */
+  .acc{margin-top:22px;border-top:1px solid var(--line)}
+  .acc details{border-bottom:1px solid var(--line)}
+  .acc summary{list-style:none;cursor:pointer;padding:15px 0;display:flex;justify-content:space-between;font-size:14px}
+  .acc summary::-webkit-details-marker{display:none}
+  .acc summary::after{content:"+";color:var(--muted)}
+  .acc details[open] summary::after{content:"–"}
+  .acc p{color:var(--muted);font-size:14px;padding-bottom:16px}
+
   .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;z-index:80;background:var(--text);color:var(--ink);padding:12px 18px;font-size:14px;transition:.3s;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
   .toast.on{opacity:1;transform:translate(-50%,0)}
   .credit-pill{position:fixed;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;background:var(--ink-2);border:1px solid var(--line);color:var(--muted);padding:8px 14px;border-radius:99px;font-size:12px}
@@ -121,12 +157,14 @@
 
   @media (max-width:960px){
     .menu{display:none}
+    .burger{display:block}
     .works{grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 16px}
     .hero{grid-template-columns:1fr;min-height:0}
     .hero-img{height:70svh;order:-1}
     .hero-text{padding:40px 20px 56px}
     .about,.card{grid-template-columns:1fr;gap:36px}
-    .card img{max-height:56vh}
+    .view{max-height:60vh}
+    .card{align-items:start}
   }
   @media (max-width:520px){
     section{padding:80px 0}
@@ -151,6 +189,7 @@
     </nav>
     <div class="right">
       <div class="lang" aria-label="Language"><button class="on" type="button">EN</button>·<button type="button" data-ua>UA</button></div>
+      <button class="burger" type="button" aria-label="Menu" aria-expanded="false" data-burger><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18"/></svg></button>
       <a href="#" class="bag" aria-label="Cart" data-cart>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
         <b hidden data-count>0</b>
@@ -158,6 +197,14 @@
     </div>
   </div>
 </header>
+
+<nav class="mnav" id="mnav" hidden aria-label="Mobile">
+  <a href="#originals">Originals</a>
+  <a href="#commissions">Commissions</a>
+  <a href="#about">About</a>
+  <a href="#contact">Contact</a>
+  <div class="lang"><button class="on" type="button">EN</button>&nbsp;·&nbsp;<button type="button" data-ua>UA</button></div>
+</nav>
 
 <main id="top">
   <section class="hero" style="padding:0">
@@ -222,13 +269,20 @@
 <div class="panel" id="panel" hidden role="dialog" aria-modal="true" aria-labelledby="pTitle">
   <button class="x" type="button" data-close aria-label="Close">×</button>
   <div class="card">
-    <img id="pImg" src="" alt="">
+    <div class="gal">
+      <div class="view" id="pView"></div>
+      <div class="thumbs" id="pThumbs"></div>
+    </div>
     <div>
       <span class="small" id="pSeries"></span>
       <h3 id="pTitle"></h3>
       <p class="meta" id="pMeta"></p>
       <div id="pBuy"></div>
-      <small>Free insured shipping to the US, Canada, UK, Australia and Switzerland. Arrives in 14–21 days.</small>
+      <div class="acc">
+        <details><summary>Details</summary><p id="pDetails"></p></details>
+        <details open><summary>Shipping</summary><p>Free insured shipping to the US, Canada, the UK, Australia and Switzerland. Ships from the artist's studio in Ukraine and arrives in 14–21 days. A rolled canvas ships in a tube and costs less; stretch and frame it locally.</p></details>
+        <details><summary>Duties &amp; returns</summary><p>Import duties or taxes, if any, are paid by the buyer on delivery. Each painting is one of a kind; see the terms of sale for returns.</p></details>
+      </div>
     </div>
   </div>
 </div>
@@ -278,9 +332,39 @@ $('#showAll').addEventListener('click',()=>{showAll=!showAll;render();if(!showAl
 
 const toast=(msg)=>{const t=$('#toast');t.textContent=msg;t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),2600);};
 const panel=$('#panel');
+// size "H × W cm" → [h,w] in cm; tondo "Ø 80 cm" → round
+function dims(w){
+  const m=w.size.match(/^(\d+)\s*×\s*(\d+)\s*cm$/);
+  if(m) return {h:+m[1],w:+m[2]};
+  const r=w.size.match(/Ø\s*(\d+)/); if(r) return {h:+r[1],w:+r[1],round:true};
+  return {h:60,w:60};
+}
+const SOFA='<svg class="sofa" viewBox="0 0 210 85" aria-hidden="true"><rect x="0" y="22" width="210" height="45" rx="10" fill="#6d665f"/><rect x="14" y="0" width="182" height="40" rx="10" fill="#7a736b"/><rect x="0" y="22" width="24" height="50" rx="9" fill="#615a54"/><rect x="186" y="22" width="24" height="50" rx="9" fill="#615a54"/><rect x="18" y="67" width="6" height="18" fill="#3b3430"/><rect x="186" y="67" width="6" height="18" fill="#3b3430"/></svg>';
+function roomView(w){
+  // the frame shows 400 cm of wall and 250 cm of height; sofa 210 × 85 cm stands on the floor line
+  const d=dims(w), WALL_W=400, WALL_H=300, FLOOR=55, SOFA_H=85;
+  const bottom=FLOOR+SOFA_H+18; // 18 cm gap above the sofa back
+  const fl=FLOOR/WALL_H*100;
+  return `<div class="room" style="background:linear-gradient(to top,#a88b6b,#b99d7d ${fl}%,#e2dcd3 ${fl}%,#ebe6df)"><img class="art${d.round?' round':''}" src="../img/${w.img}.jpg" alt="${w.t} on a wall above a sofa" style="width:${d.w/WALL_W*100}%;height:${d.h/WALL_H*100}%;bottom:${bottom/WALL_H*100}%">${SOFA.replace('class="sofa"',`class="sofa" style="bottom:${fl}%;width:${210/WALL_W*100}%"`)}<span class="cap">To scale · sofa 210 cm wide</span></div>`;
+}
+let shots=[],shot=0;
+function showShot(k){
+  shot=(k+shots.length)%shots.length;
+  $('#pView').classList.toggle('wide',shot===3);
+  $('#pView').innerHTML=shots[shot]+(shots.length>1?'<button class="arrow prev" type="button" data-prev aria-label="Previous">‹</button><button class="arrow next" type="button" data-next aria-label="Next">›</button>':'');
+  document.querySelectorAll('.thumb').forEach((t,j)=>t.classList.toggle('on',j===shot));
+}
 function openWork(i){
-  const w=works[i];
-  $('#pImg').src=`../img/${w.img}.jpg`;$('#pImg').alt=w.t;
+  const w=works[i], src=`../img/${w.img}.jpg`;
+  shots=[
+    `<img src="${src}" alt="${w.t}">`,
+    `<img class="zoom" src="${src}" alt="${w.t}, detail" style="transform:scale(2.2);transform-origin:35% 35%">`,
+    `<img class="zoom" src="${src}" alt="${w.t}, detail" style="transform:scale(2.6);transform-origin:70% 65%">`,
+    roomView(w)
+  ];
+  $('#pThumbs').innerHTML=shots.map((_,j)=>`<button class="thumb" type="button" data-shot="${j}" aria-label="View ${j+1}">${j<3?`<img src="${src}" alt="" style="${j?`transform:scale(${j===1?2.2:2.6});transform-origin:${j===1?'35% 35%':'70% 65%'}`:''}">`:`<img src="${src}" alt=""><span>On the wall</span>`}</button>`).join('');
+  showShot(0);
+  $('#pDetails').textContent=`Original oil painting on canvas, ${w.size}, ${w.y}. Signed by the artist and varnished for protection. Comes with a certificate of authenticity.`;
   $('#pSeries').textContent=w.s;$('#pTitle').textContent=w.t;
   $('#pMeta').textContent=`Oil on canvas · ${w.size} · ${w.y}`;
   $('#pBuy').innerHTML=w.sold
@@ -298,12 +382,21 @@ const close=()=>{panel.hidden=true;document.body.style.overflow='';};
 document.addEventListener('click',(e)=>{
   const w=e.target.closest('.work');if(w){openWork(+w.dataset.i);return;}
   if(e.target.closest('[data-close]')||e.target===panel){close();return;}
+  const th=e.target.closest('[data-shot]');if(th){showShot(+th.dataset.shot);return;}
+  if(e.target.closest('[data-prev]')){showShot(shot-1);return;}
+  if(e.target.closest('[data-next]')){showShot(shot+1);return;}
+  const bg=e.target.closest('[data-burger]');
+  if(bg){const m=$('#mnav');m.hidden=!m.hidden;bg.setAttribute('aria-expanded',String(!m.hidden));return;}
+  if(e.target.closest('#mnav a')){$('#mnav').hidden=true;$('[data-burger]').setAttribute('aria-expanded','false');}
   if(e.target.closest('[data-buy]')){e.preventDefault();toast('Demo: secure card checkout by plata by mono opens here.');return;}
   if(e.target.closest('[data-inquire]')){e.preventDefault();close();toast('Demo: an inquiry form opens here and arrives by email.');return;}
   if(e.target.closest('[data-ua]')){toast('Українська версія буде у фінальному сайті.');return;}
   if(e.target.closest('[data-soon]')||e.target.closest('[data-cart]')){e.preventDefault();toast('Demo: this page comes with the final site.');}
 });
-addEventListener('keydown',(e)=>{if(e.key==='Escape')close();});
+addEventListener('keydown',(e)=>{if(e.key==='Escape')close();if(!panel.hidden&&e.key==='ArrowRight')showShot(shot+1);if(!panel.hidden&&e.key==='ArrowLeft')showShot(shot-1);});
+// swipe between photos
+let sx=null;$('#pView').addEventListener('touchstart',(e)=>{sx=e.touches[0].clientX;},{passive:true});
+$('#pView').addEventListener('touchend',(e)=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)showShot(shot+(dx<0?1:-1));sx=null;});
 $('#news').addEventListener('submit',(e)=>{e.preventDefault();e.target.reset();$('#newsNote').hidden=false;});
 const toTop=$(".to-top");
 addEventListener('scroll',()=>toTop.classList.toggle('on',scrollY>innerHeight),{passive:true});
